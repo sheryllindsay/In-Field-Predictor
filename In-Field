@@ -1,0 +1,12 @@
+fill<-read.csv(file="C:/fitindata3.csv", header=TRUE, sep=",")
+final<-data.frame(fill)
+View(final)
+library(caTools)
+install.packages('caTools')
+a<-sample.split(final$POS,SplitRatio=0.7)
+subset(final,a==T)->trainset
+subset(final,a==F)->testset
+library(rpart)
+m<-rpart(POS~.,data=trainset)
+result<-predict(m,testset,type="class")
+table(testset$POS,result)
